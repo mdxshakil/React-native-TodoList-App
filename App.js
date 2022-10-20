@@ -22,9 +22,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.taskWrapper}>
-        <Text style={styles.sectionTitle}>Today's Task</Text>
+        <Text style={styles.sectionTitle}>Take a Note</Text>
         <Text style={styles.date}>{new Date().toLocaleDateString()}</Text>
-        <Text style={styles.sectionInfo}>(Click any task to delete it)</Text>
+        {taskItems.length !=0 && <Text style={styles.sectionInfo}>(Click any task to delete it)</Text>}
         <View style={styles.items}>
           {
             taskItems.map((item, index) => {
