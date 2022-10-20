@@ -13,14 +13,26 @@ export default function App() {
     Keyboard.dismiss();
   }
 
+  const handleDeleteTask = (index) => {
+    let allTasksCopy = [...taskItems];
+    allTasksCopy.splice(index, 1);
+    setTaskItems(allTasksCopy);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.taskWrapper}>
         <Text style={styles.sectionTitle}>Today's Task</Text>
+        <Text style={styles.date}>{new Date().toLocaleDateString()}</Text>
+        <Text style={styles.sectionInfo}>(Click any task to delete it)</Text>
         <View style={styles.items}>
           {
             taskItems.map((item, index) => {
-             return <Task key={index} text={item}></Task>
+              return (
+                <TouchableOpacity onPress={() => handleDeleteTask(index)} key={index}>
+                  <Task text={item} index={index}></Task>
+                </TouchableOpacity>
+              )
             })
           }
         </View>
@@ -30,7 +42,7 @@ export default function App() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}>
         <TextInput style={styles.input} placeholder='Write a new task' value={task} onChangeText={task => setTask(task)}></TextInput>
-        <TouchableOpacity onPress={()=>handleAddTask()}>
+        <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -53,6 +65,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  sectionInfo: {
+    fontSize: 12,
+    color: '#ee4748'
+  },
   items: {
     marginTop: 30,
   },
@@ -61,7 +77,7 @@ const styles = StyleSheet.create({
     bottom: 60,
     width: '100%',
     flexDirection: 'row',
-    justifyContent:'space-around',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   input: {
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 60,
     backgroundColor: '#fff',
-    justifyContent:'center',
+    justifyContent: 'center',
     borderColor: '#c0c0c0',
     borderWidth: 1,
   },
